@@ -4,10 +4,6 @@
 
 *ComicBookReader* is a c++ program to read *.cbr* or *.cbz* comic book files. It uses the *qml* technology of *Qt* to create the GUI,  *OpenCV*  library to process the images, and the *unarrlib* to extract specific files from cbr/cbz file to memory.
 
-### Authors
-
-Chuan QIN, Yanis KEMMAR
-
 ### Dependencies
 - unarrlib
 
