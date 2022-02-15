@@ -287,12 +287,12 @@ element is a structure of 2 integers, followed by a single-precision floating-po
 equivalent notations of the above specification are `iif`, `2i1f` and so forth. Other examples: `u`
 means that the array consists of bytes, and `2d` means the array consists of pairs of doubles.
 
-@see @ref filestorage.cpp
+@see @ref samples/cpp/filestorage.cpp
 */
 
 //! @{
 
-/** @example filestorage.cpp
+/** @example samples/cpp/filestorage.cpp
 A complete example using the FileStorage interface
 */
 
@@ -340,16 +340,9 @@ public:
     CV_WRAP FileStorage();
 
     /** @overload
-    @param source Name of the file to open or the text string to read the data from. Extension of the
-    file (.xml, .yml/.yaml, or .json) determines its format (XML, YAML or JSON respectively). Also you can
-    append .gz to work with compressed files, for example myHugeMatrix.xml.gz. If both FileStorage::WRITE
-    and FileStorage::MEMORY flags are specified, source is used just to specify the output file format (e.g.
-    mydata.xml, .yml etc.).
-    @param flags Mode of operation. See  FileStorage::Mode
-    @param encoding Encoding of the file. Note that UTF-16 XML encoding is not supported currently and
-    you should use 8-bit encoding instead of it.
+    @copydoc open()
     */
-    CV_WRAP FileStorage(const String& source, int flags, const String& encoding=String());
+    CV_WRAP FileStorage(const String& filename, int flags, const String& encoding=String());
 
     /** @overload */
     FileStorage(CvFileStorage* fs, bool owning=true);
@@ -436,7 +429,7 @@ public:
     /** @brief Writes the registered C structure (CvMat, CvMatND, CvSeq).
     @param name Name of the written object.
     @param obj Pointer to the object.
-    @see ocvWrite for details.
+    @see cvWrite for details.
      */
     void writeObj( const String& name, const void* obj );
 
@@ -445,6 +438,8 @@ public:
      * @param name Name of the written object
      * @param val Value of the written object
      */
+    CV_WRAP void write(const String& name, int val);
+    /// @overload
     CV_WRAP void write(const String& name, double val);
     /// @overload
     CV_WRAP void write(const String& name, const String& val);
@@ -460,6 +455,17 @@ public:
     line, the comment starts a new line.
      */
     CV_WRAP void writeComment(const String& comment, bool append = false);
+
+    /** @brief Starts to write a nested structure (sequence or a mapping).
+    @param name name of the structure (if it's a member of parent mapping, otherwise it should be empty
+    @param flags type of the structure (FileNode::MAP or FileNode::SEQ (both with optional FileNode::FLOW)).
+    @param typeName usually an empty string
+    */
+    CV_WRAP void startWriteStruct(const String& name, int flags, const String& typeName=String());
+
+    /** @brief Finishes writing nested structure (should pair startWriteStruct())
+    */
+    CV_WRAP void endWriteStruct();
 
     /** @brief Returns the normalized object name for the specified name of a file.
     @param filename Name of a file
@@ -531,6 +537,8 @@ public:
     */
     FileNode(const FileNode& node);
 
+    FileNode& operator=(const FileNode& node);
+
     /** @brief Returns element of a mapping node or a sequence node.
     @param nodename Name of an element in the mapping node.
     @returns Returns the element with the given identifier.
@@ -546,6 +554,11 @@ public:
     @param i Index of an element in the sequence node.
     */
     CV_WRAP_AS(at) FileNode operator[](int i) const;
+
+    /** @brief Returns keys of a mapping node.
+    @returns Keys of a mapping node.
+     */
+    CV_WRAP std::vector<String> keys() const;
 
     /** @brief Returns type of the node.
     @returns Type of the node. See FileNode::Type
@@ -597,8 +610,8 @@ public:
     Usually it is more convenient to use operator `>>` instead of this method.
     @param fmt Specification of each array element. See @ref format_spec "format specification"
     @param vec Pointer to the destination array.
-    @param len Number of elements to read. If it is greater than number of remaining elements then all
-    of them will be read.
+    @param len Number of bytes to read (buffer size limit). If it is greater than number of
+               remaining elements then all of them will be read.
      */
     void readRaw( const String& fmt, uchar* vec, size_t len ) const;
 
@@ -645,6 +658,8 @@ public:
     */
     FileNodeIterator(const FileNodeIterator& it);
 
+    FileNodeIterator& operator=(const FileNodeIterator& it);
+
     //! returns the currently observed element
     FileNode operator *() const;
     //! accesses the currently observed element methods
@@ -668,11 +683,12 @@ public:
     Usually it is more convenient to use operator `>>` instead of this method.
     @param fmt Specification of each array element. See @ref format_spec "format specification"
     @param vec Pointer to the destination array.
-    @param maxCount Number of elements to read. If it is greater than number of remaining elements then
-    all of them will be read.
+    @param len Number of bytes to read (buffer size limit). If it is greater than number of
+               remaining elements then all of them will be read.
+
      */
     FileNodeIterator& readRaw( const String& fmt, uchar* vec,
-                               size_t maxCount=(size_t)INT_MAX );
+                               size_t len=(size_t)INT_MAX );
 
     struct SeqReader
     {
@@ -858,7 +874,9 @@ namespace internal
             size_t remaining = it->remaining;
             size_t cn = DataType<_Tp>::channels;
             int _fmt = traits::SafeFmt<_Tp>::fmt;
+            CV_Assert((_fmt >> 8) < 9);
             char fmt[] = { (char)((_fmt >> 8)+'1'), (char)_fmt, '\0' };
+            CV_Assert((remaining % cn) == 0);
             size_t remaining1 = remaining / cn;
             count = count < remaining1 ? count : remaining1;
             vec.resize(count);
@@ -1323,6 +1341,7 @@ inline FileNode FileStorage::getFirstTopLevelNode() const { FileNode r = root();
 inline FileNode::FileNode() : fs(0), node(0) {}
 inline FileNode::FileNode(const CvFileStorage* _fs, const CvFileNode* _node) : fs(_fs), node(_node) {}
 inline FileNode::FileNode(const FileNode& _node) : fs(_node.fs), node(_node.node) {}
+inline FileNode& FileNode::operator=(const FileNode& _node)  { fs = _node.fs; node = _node.node; return *this; }
 inline bool FileNode::empty() const    { return node   == 0;    }
 inline bool FileNode::isNone() const   { return type() == NONE; }
 inline bool FileNode::isSeq() const    { return type() == SEQ;  }

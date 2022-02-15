@@ -17,19 +17,20 @@ win32 {
     ##########
     #Files for opencv
     INCLUDEPATH += $$PWD/../3dparts/include/opencv
-    LIBS += -L$$PWD/../3dparts/lib/opencv -lopencv_core331 -lopencv_imgcodecs331 -lopencv_imgproc331
+    #LIBS += -L$$PWD/../3dparts/lib/opencv -lopencv_core331 -lopencv_imgcodecs331 -lopencv_imgproc331
+    LIBS += -L$$PWD/../3dparts/lib/opencv -lopencv_world3415d -lopencv_world3415
 
     ##########
     #Files for unarr
     INCLUDEPATH += $$PWD\..\3dparts\include\unarr
     LIBS += -L"$$PWD\\..\\3dparts\\lib\\unarrlib" \
-        -lunarrlib
+        -lunarr
 
     ##########
     #Files for zlib
-    INCLUDEPATH += $$PWD\..\3dparts\include\zlib
-    LIBS += -L"$$PWD\\..\\3dparts\\lib\\zlib" \
-        -lzlib
+    #INCLUDEPATH += $$PWD\..\3dparts\include\zlib
+    #LIBS += -L"$$PWD\\..\\3dparts\\lib\\zlib" \
+    #    -lzlib-ng
 
     QMAKE_CXXFLAGS_RELEASE -= -O
     QMAKE_CXXFLAGS_RELEASE -= -O1
@@ -41,10 +42,10 @@ unix {
     ##########
     #Files for opencv
     INCLUDEPATH += $$PWD/../3dparts/include/opencv
-    LIBS += -L/usr/local/lib -lopencv_core -lopencv_imgcodecs -lopencv_highgui -lopencv_imgproc
+    LIBS += -L/usr/local/lib -lopencv_world3415d -lopencv_world3415
     #Files for unarr
     INCLUDEPATH += $$PWD/../3dparts/include/unarr
-    LIBS += -L$$PWD/../3dparts/lib/unarrlib -lunarr
+    LIBS += -L$$PWD/../3dparts/lib/unarrlib -unarr
 
     QMAKE_CXXFLAGS_RELEASE -= -O
     QMAKE_CXXFLAGS_RELEASE -= -O1
