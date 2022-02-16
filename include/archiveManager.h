@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include <opencv2/opencv.hpp>
+#include <map>
+#include <vector>
 extern "C"
 {
 #include "unarr.h"
@@ -13,9 +15,8 @@ extern "C"
 #include <crtdbg.h>
 #endif
 }
-#include <vector>
-#include "comicReader.h"
-class archiveManager: public ArchiveInterface
+
+class archiveManager
 {
 public:
     archiveManager() {};

@@ -1,7 +1,10 @@
 #pragma once
-#include "comicReader.h"
+#include <string>
+#include <map>
+#include <opencv2/opencv.hpp>
+#include <vector>
 #include "archiveManager.h"
-class ImageProcess:public ImageProcessInterface {
+class ImageProcess{
 public:
 	ImageProcess(){ 
 		is_loaded = false;

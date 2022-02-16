@@ -60,7 +60,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     ../include/archiveManager.h \
-    ../include/comicReader.h \
     ../include/imageProcess.h \
     ../include/imgprovider.h \
     ../include/cache.h \
