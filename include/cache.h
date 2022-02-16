@@ -25,7 +25,7 @@ public:
 	}
 };
 
-class ImagePreloadParams
+class PreloadParams
 {
 
 public:
@@ -34,20 +34,20 @@ public:
     int page_preload_right_size;
     int page_type;
 
-    ImagePreloadParams(int t1, int t2, int t3, int t4){
+    PreloadParams(int t1, int t2, int t3, int t4){
         page_num_current = t1;
         page_preload_left_size = t2;
         page_preload_right_size = t3;
         page_type = t4;
     }
-    ImagePreloadParams(){
+    PreloadParams(){
         page_num_current = 0;
         page_preload_left_size = 0;
         page_preload_right_size = 0;
         page_type = 0;
     }
 };
-Q_DECLARE_METATYPE(ImagePreloadParams)
+Q_DECLARE_METATYPE(PreloadParams)
 
 extern QCache<int,ImageData> cache;
 extern QReadWriteLock cache_lock;

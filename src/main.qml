@@ -99,10 +99,6 @@ Window {
                             showImage2.source = "image://ImageProvider/" + (showImage.pageNum + 1).toString() + "/" + showImage.showMode.toString()+ "/" + showImage2.trigger
                         }
 
-                        //console.log(showImage.width)
-                        //console.log(showImage.height)
-                        //console.log(showImage2.status)
-
                     }
 
 
@@ -117,7 +113,6 @@ Window {
                      anchors.right: parent.right
                      anchors.top: parent.top
                      anchors.bottom: parent.bottom
-                     //source: "image://ImageProvider/" + (showImage.pageNum + 1).toString() + "/" + showImage.showMode.toString()+ "/" + trigger
                      opacity: 0.0
                      cache: false
                      fillMode: Image.PreserveAspectFit
@@ -159,14 +154,11 @@ Window {
                     target: buttonTwoPageViewSwitch
                     onClicked:{
                         if( showImage2.opacity == 0){
-                            // switch to show the second image
                             showImage2.opacity = 1.0
                             showImage2.isShow = true
                             showImage2.source = "image://ImageProvider/" + (showImage.pageNum + 1).toString() + "/" + showImage.showMode.toString() + "/" + showImage2.trigger
-                            //console.log(showImage2.status)
                         }
                         else{
-                            //switch to hide the second image
                             showImage2.opacity = 0.0
                             showImage2.isShow = false
                             source: undefined
@@ -196,7 +188,6 @@ Window {
                     onShowModeChanged:{
                         if( showImage2.isShow == true){
                              showImage2.source = "image://ImageProvider/" + (showImage.pageNum + 1).toString() + "/" + showImage.showMode.toString() + "/" + showImage2.trigger
-                            //console.log(showImage2.status)
                         }
                     }
                 }
@@ -272,9 +263,7 @@ Window {
         }
         ToolBar{
             id: bottomBar
-            //position: ToolBar.Footer
             anchors.bottomMargin: 0
-            //anchors.topMargin: (parent.height-50)
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: parent.top
@@ -295,58 +284,16 @@ Window {
                             selectMultiple: false
                             signal setFilePathSignal(string msg)
                             onAccepted: {
-                                //console.log("You chose: " + fileDialog.fileUrl)
-                                //Qt.quit()
                                 setFilePathSignal(fileDialog.fileUrl)
 
                             }
                             onRejected: {
-                                //console.log("Canceled")
-                                //Qt.quit()
                             }
 
                         }
                         onClicked: fileDialog.open()
                 }
                 CustomSeparator{}
-                /*
-                Item {
-                    id: item1
-                    Layout.fillWidth: true
-                    CustomButton {
-                        id: buttonPageDown
-                        width: parent.width/2.0
-                        text: qsTr("PageDown")
-                        anchors.left: parent.left
-                        anchors.verticalCenter: parent.verticalCenter
-                        function pageDown(){
-                            if(showImage2.isShow == false)   showImage.pageNum -=1
-                            else showImage.pageNum -=2
-                        }
-
-                        onClicked: pageDown()
-                    }
-                    CustomButton {
-                        id: buttonPageUp
-                        text: qsTr("PageUp")
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.left: buttonPageDown.right
-                        anchors.right: parent.right
-                        function pageUp(){
-                            if(showImage2.isShow == false)   showImage.pageNum +=1
-                            else showImage.pageNum +=2
-                        }
-
-                        onClicked: {
-                            pageUp()
-                        }
-
-
-                    }
-                }
-                */
-
-                // CustomSeparator{}
                 CustomButton {
                     id: buttonZoomIn
                     text: qsTr(" Zoom in ")
@@ -364,7 +311,6 @@ Window {
                         showWindow.width = showWindow.parent.width;
                         showWindow.height = showWindow.parent.height;
                         showWindow.anchors.horizontalCenter = mouseArea.horizontalCenter
-                        //showWindow.anchors.top = ToolBar.bottom
                         showWindow.anchors.verticalCenter = mouseArea.verticalCenter
                     }
                     onClicked: autoFit()

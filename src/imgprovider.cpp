@@ -15,8 +15,6 @@ ImgProvider::ImgProvider()
 
 
     cache.setMaxCost(50); // set cache's capacity, can save 100 images;
-    //emit setPreloadPageNumTotal(page_num_total);
-
 
 }
 
@@ -148,12 +146,7 @@ void ImgProvider::handlePathChange() {
 }
 
 void ImgProvider::filePathSlot(const QString &p) {
-#ifdef _WIN64
     QStringList pieces = p.split("///");
-#endif
-#ifdef __linux__
-    QStringList pieces = p.split("//");
-#endif
     g_archive_path = pieces[1].toStdString();
     g_is_path_changed = true;
     handlePathChange();

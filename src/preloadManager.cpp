@@ -4,7 +4,6 @@
 PreLoadManager::PreLoadManager(){
     g_is_page_current_changed = false;
     g_is_preload_run = false;
-    //parallelLoadPage();
 }
 
 void PreLoadManager::loadAndCacheImage(const int page_num, const int page_type){

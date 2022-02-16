@@ -13,7 +13,7 @@ std::mutex g_preload_mutex;
 std::condition_variable g_preload_cv;
 int g_page_num_total;
 std::string g_archive_path;
-ImagePreloadParams g_preload_params;
+PreloadParams g_preload_params;
 bool g_is_exit; //program finished
 int main(int argc, char *argv[])
 {
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
-    qRegisterMetaType<ImagePreloadParams>("ImagePreloadParams");
+    qRegisterMetaType<PreloadParams>("PreloadParams");
 
     ImgProvider* img_provider_ptr = new ImgProvider;
     engine.addImageProvider(QString("ImageProvider"), img_provider_ptr);
