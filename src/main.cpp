@@ -1,6 +1,5 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-//#include "showimage.h"
 #include "../include/imgprovider.h"
 #include "../include/cache.h"
 
@@ -24,9 +23,6 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
-
-    //qmlRegisterType<ShowImage>("ComicBookReader.ShowImage", 1, 0, "ShowImage");
-
 
     qRegisterMetaType<ImagePreloadParams>("ImagePreloadParams");
 

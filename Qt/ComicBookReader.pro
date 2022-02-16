@@ -38,11 +38,11 @@ INCLUDEPATH += ..\src\
 
 
 SOURCES += \
+    ../src/archiveManager.cpp \
+    ../src/imageProcess.cpp \
     ../src/imgprovider.cpp \
-    ../src/preloadworker.cpp\
-    ../src/ArchiveReader.cpp \
     ../src/main.cpp \
-    ../src/image_process.cpp
+    ../src/preloadManager.cpp
 
 
 RESOURCES += ../src/qml.qrc
@@ -59,12 +59,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    ../include/archiveManager.h \
+    ../include/comicReader.h \
+    ../include/imageProcess.h \
     ../include/imgprovider.h \
-    ../include/preloadworker.h \
     ../include/cache.h \
-    ../include/comic_book_reader_contract.h \
-    ../include/image_process.h \
-    ../include/ArchiveReader.h \
+    ../include/preloadManager.h
 
 
 DISTFILES += \

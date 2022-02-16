@@ -9,16 +9,11 @@
 #include <QImage>
 #include <QReadWriteLock>
 #include <QMetaType>
-#ifdef _WIN64
 #include <opencv2/opencv.hpp>
-#endif
-#ifdef __linux__
-#include <opencv2/opencv.hpp>
-#endif
+
 class ImageData
 {
 public:
-    //int page_num;
     int page_type;
     cv::Mat *cv_image_ptr;
 

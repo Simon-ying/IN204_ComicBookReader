@@ -11,7 +11,7 @@ ImgProvider::ImgProvider()
 
     //for parallel preloading
 
-    preload_thread = std::thread(&PreLoadWorker::parallelLoadPage, &preload_worker);
+    preload_thread = std::thread(&PreLoadManager::parallelLoadPage, &preload_worker);
 
 
     cache.setMaxCost(50); // set cache's capacity, can save 100 images;
@@ -74,7 +74,7 @@ QImage ImgProvider::requestImage(const QString &id, QSize *size, const QSize &re
             }
             cache_lock.unlock();
 
-            // Send task to preloadWorker
+            // Send task to PreLoadManager
             preloadImage(current_page);
 
             return cvMatToQImage(image_data_ptr->cv_image_ptr);
@@ -109,7 +109,7 @@ QImage ImgProvider::requestImage(const QString &id, QSize *size, const QSize &re
     }
 
 
-    // Send task to preloadWorker
+    // Send task to PreLoadManager
     preloadImage(current_page);
 
     return cvMatToQImage(image_data_ptr->cv_image_ptr);
